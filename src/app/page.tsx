@@ -2,25 +2,24 @@
 
 import { FormComponent } from "@/components/FormComponent";
 import { CurrencyContext } from "@/context/CurrencyContext";
+import useCurrencyConversion from "@/hooks/useCurrencyConversion";
 import fetchConversion from "@/services/fetchConversion";
 import { Box, Container, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 
 export default function Home() {
-  const { fromCurrency, toCurrency, firstAmount } = useContext(CurrencyContext);
-  const [result, setResult] = useState<string>("");
+  const { calculatedResult, fromCurrency, toCurrency, firstAmount, error } =
+    useCurrencyConversion();
 
-  useEffect(() => {
-    const conversion = async () => {
-      const data = await fetchConversion(
-        fromCurrency,
-        parseInt(firstAmount),
-        toCurrency
-      );
-      setResult(data.convertedAmount);
-    };
-    conversion();
-  }, [firstAmount, fromCurrency, toCurrency]);
+  if (error) {
+    return (
+      <Container maxWidth="md" sx={styles.container}>
+        <Typography variant="h5" sx={{ marginBottom: "2rem" }}>
+          Something went wrong!
+        </Typography>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="md" sx={styles.container}>
@@ -34,7 +33,7 @@ export default function Home() {
             {firstAmount} {fromCurrency} =
           </Typography>
           <Typography variant="h5" sx={styles.resultTypo}>
-            {parseInt(result) * parseInt(firstAmount)} {toCurrency}
+            {calculatedResult.toFixed(2)} {toCurrency.toUpperCase()}
           </Typography>
         </Box>
       ) : null}

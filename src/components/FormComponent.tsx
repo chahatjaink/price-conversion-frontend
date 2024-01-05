@@ -1,10 +1,9 @@
+import { CurrencyContext } from "@/context/CurrencyContext";
+import { useAxios } from "@/hooks/useAxios";
 import { Grid } from "@mui/material";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { InputAmount } from "./InputAmount";
 import { SelectCountry } from "./SelectCountry";
-import { SwitchCurrency } from "./SwitchCurrency";
-import { useAxios } from "@/hooks/useAxios";
-import { CurrencyContext } from "@/context/CurrencyContext";
 
 export const FormComponent = () => {
   const { fromCurrency, toCurrency, fromValueChange, toValueChange } =
@@ -40,7 +39,6 @@ export const FormComponent = () => {
         setValue={fromValueChange}
         loaded={top100Loaded}
       />
-      {/* <SwitchCurrency /> */}
       <SelectCountry
         selectLabel="to"
         options={currenciesData}

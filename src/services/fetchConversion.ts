@@ -14,12 +14,15 @@ export default async function fetchConversion(
           amount,
           targetCurrency: to,
         },
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
       }
     );
     const data = response.data;
-    return data;
+    return data.convertedAmount;
   } catch (error) {
-    console.error("Error fetching conversion:", error);
     throw new Error("Error fetching conversion");
   }
 }
